@@ -8,6 +8,11 @@ from playsound import playsound
 import sys
 
 
+# Comment/Uncomment the appropriate path
+#ASSETS = "assets/"              #<-FOR DEVELOPMENT
+ASSETS = "/opt/hs-app/assets/"  #<-FOR PRODUCTION
+
+# Global image, sound, and text variables
 HS = ['h1.jpg','h2.jpg' ,'h3.jpg' ,'h4.jpg' ,'h5.jpg']
 SOUNDS = ["bruh1.mp3"]
 ABOUT = "About:\n\tSlideshow app that picks a\n\trandom photo of H and\n\ta bruh noise."
@@ -54,8 +59,7 @@ class MainWindow(Gtk.ApplicationWindow):
         # Image widget
         self.image = Gtk.Image()
         self.h = choice(HS)
-        #self.image.set_from_file("assets/" + self.h)                 #<-FOR DEV
-        self.image.set_from_file("/opt/hs-app/assets/" + self.h)      #<-FOR PROD
+        self.image.set_from_file(ASSETS + self.h)
 
         # Attach image and bruh button widgets to grid
         grid.attach_next_to(self.image, menubar, Gtk.PositionType.BOTTOM, 1, 2)
@@ -75,10 +79,8 @@ class MainWindow(Gtk.ApplicationWindow):
         while newH == self.h:
             newH = choice(HS)
         self.h = newH
-        #self.image.set_from_file("assets/" + self.h)                 #<-FOR DEV
-        #playsound("assets/" + choice(SOUNDS))                        #<-FOR DEV
-        self.image.set_from_file("/opt/hs-app/assets/" + self.h)      #<-FOR PROD
-        playsound("/opt/hs-app/assets/" + choice(SOUNDS))             #<-FOR PROD
+        self.image.set_from_file(ASSETS + self.h)
+        playsound(ASSETS + choice(SOUNDS))
  
 
     def on_about_window(self, par):
@@ -121,14 +123,11 @@ class Application(Gtk.Application):
 
 # Load Ultimate-Dark-(Flat)-Grey GTK theme css
 style_provider = Gtk.CssProvider()
-#style_provider.load_from_file(Gio.File.new_for_path("assets/gtk-3.0/gtk.css"))  #<-FOR DEV
-style_provider.load_from_file(Gio.File.new_for_path(                             #<-FOR PROD
-                              "/opt/hs-app/assets/gtk-3.0/gtk.css"))             #<-FOR PROD
+style_provider.load_from_file(Gio.File.new_for_path(ASSETS + "gtk-3.0/gtk.css"))
 Gtk.StyleContext.add_provider_for_screen(
 Gdk.Screen.get_default(),
 style_provider,
-Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-)
+Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 
 # Run application
