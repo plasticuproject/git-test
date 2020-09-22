@@ -55,7 +55,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.image = Gtk.Image()
         self.h = choice(HS)
         #self.image.set_from_file("assets/" + self.h)                 #<-FOR DEV
-        self.image.set_from_file("/opt/hs_app/assets/" + self.h)      #<-FOR PROD
+        self.image.set_from_file("/opt/hs-app/assets/" + self.h)      #<-FOR PROD
 
         # Attach image and bruh button widgets to grid
         grid.attach_next_to(self.image, menubar, Gtk.PositionType.BOTTOM, 1, 2)
@@ -77,8 +77,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.h = newH
         #self.image.set_from_file("assets/" + self.h)                 #<-FOR DEV
         #playsound("assets/" + choice(SOUNDS))                        #<-FOR DEV
-        self.image.set_from_file("/opt/hs_app/assets/" + self.h)      #<-FOR PROD
-        playsound("/opt/hs_app/assets/" + choice(SOUNDS))             #<-FOR PROD
+        self.image.set_from_file("/opt/hs-app/assets/" + self.h)      #<-FOR PROD
+        playsound("/opt/hs-app/assets/" + choice(SOUNDS))             #<-FOR PROD
  
 
     def on_about_window(self, par):
@@ -123,7 +123,7 @@ class Application(Gtk.Application):
 style_provider = Gtk.CssProvider()
 #style_provider.load_from_file(Gio.File.new_for_path("assets/gtk-3.0/gtk.css"))  #<-FOR DEV
 style_provider.load_from_file(Gio.File.new_for_path(                             #<-FOR PROD
-                              "/opt/hs_app/assets/gtk-3.0/gtk.css"))             #<-FOR PROD
+                              "/opt/hs-app/assets/gtk-3.0/gtk.css"))             #<-FOR PROD
 Gtk.StyleContext.add_provider_for_screen(
 Gdk.Screen.get_default(),
 style_provider,

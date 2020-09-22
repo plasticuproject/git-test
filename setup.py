@@ -15,4 +15,4 @@ setup(  name = "H's App",
         version = "0.1",
         description = "H's App",
         options = {"build_exe": build_exe_options},
-        executables = [Executable("hs_app.py", base=base)])
+        executables = [Executable("hs-app.py", base=base)])
