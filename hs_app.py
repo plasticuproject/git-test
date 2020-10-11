@@ -1,53 +1,51 @@
+"""Picture slideshow app"""
+import sys
+from random import choice
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
-from gi.repository import Gio
-from gi.repository import Gdk
-from random import choice
+from gi.repository import Gtk, Gio, Gdk
 from playsound import playsound
-import sys
-
 
 # Comment/Uncomment the appropriate path
-#ASSETS = "assets/"              #<-FOR DEVELOPMENT
-ASSETS = "/opt/hs-app/assets/"  #<-FOR PRODUCTION
+# ASSETS = "assets/"  # <-FOR DEVELOPMENT
+ASSETS = "/opt/hs-app/assets/"  # <-FOR PRODUCTION
 
 # Global image, sound, and text variables
-HS = ['h1.jpg','h2.jpg' ,'h3.jpg' ,'h4.jpg' ,'h5.jpg']
+HS = ['h1.jpg', 'h2.jpg', 'h3.jpg', 'h4.jpg', 'h5.jpg']
 SOUNDS = ["bruh1.mp3"]
-ABOUT = "About:\n\tSlideshow app that picks a\n\trandom photo of H and\n\ta bruh noise."
+ABOUT = """About:\n\tSlideshow app that picks a\n\trandom photo of H and
+        a bruh noise."""
 
 
 class MainWindow(Gtk.ApplicationWindow):
     """Main application window"""
-
     def __init__(self, app):
         super(MainWindow, self).__init__(title="H's App", application=app)
 
         # Main application window size, position and layout
         self.set_default_size(600, 800)
-        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS) 
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         grid = Gtk.Grid()
         menubar = Gtk.MenuBar()
 
         # File menu
-        fMenu = Gtk.Menu()
+        f_menu = Gtk.Menu()
         fmi = Gtk.MenuItem.new_with_label("File")
         emi = Gtk.MenuItem.new_with_label("Exit")
         emi.connect("activate", self.quit_app)
-        fMenu.append(emi)
-        fmi.set_submenu(fMenu)
+        f_menu.append(emi)
+        fmi.set_submenu(f_menu)
         menubar.add(fmi)
 
         # About menu
-        aMenu = Gtk.Menu()
+        a_menu = Gtk.Menu()
         ami = Gtk.MenuItem.new_with_label("About")
-        amiText = Gtk.MenuItem.new_with_label("About")
-        amiText.connect("activate", self.on_about_window)
-        aMenu.append(amiText)
-        ami.set_submenu(aMenu)
+        ami_text = Gtk.MenuItem.new_with_label("About")
+        ami_text.connect("activate", self.on_about_window)
+        a_menu.append(ami_text)
+        ami.set_submenu(a_menu)
         menubar.add(ami)
-        
+
         # Attach menu widget to grid
         grid.attach(menubar, 0, 0, 1, 1)
         self.add(grid)
@@ -58,45 +56,40 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # Image widget
         self.image = Gtk.Image()
-        self.h = choice(HS)
-        self.image.set_from_file(ASSETS + self.h)
+        self.current_h = choice(HS)
+        self.image.set_from_file(ASSETS + self.current_h)
 
         # Attach image and bruh button widgets to grid
         grid.attach_next_to(self.image, menubar, Gtk.PositionType.BOTTOM, 1, 2)
         grid.attach_next_to(button, self.image, Gtk.PositionType.BOTTOM, 1, 2)
 
-
-    def quit_app(self, par):
-
-        # File submenu quit action
-        app.quit()
-
+    @classmethod
+    def quit_app(cls, par):
+        """File submenu quit action"""
+        APP.quit()
 
     def on_button_clicked(self, widget):
-
-        # Button actions
-        newH = choice(HS)
-        while newH == self.h:
-            newH = choice(HS)
-        self.h = newH
-        self.image.set_from_file(ASSETS + self.h)
+        """Button actions"""
+        new_h = choice(HS)
+        while new_h == self.current_h:
+            new_h = choice(HS)
+        self.current_h = new_h
+        self.image.set_from_file(ASSETS + self.current_h)
         playsound(ASSETS + choice(SOUNDS))
- 
 
-    def on_about_window(self, par):
-
-        # About window submenu action
+    @classmethod
+    def on_about_window(cls, par):
+        """About window submenu action"""
         AboutWindow().show_all()
 
 
 class AboutWindow(Gtk.Window):
     """About window"""
-
     def __init__(self):
         super(AboutWindow, self).__init__()
 
         # About window size, position, layout and contents
-        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS) 
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.set_border_width(15)
         label = Gtk.Label(ABOUT)
         self.add(label)
@@ -107,30 +100,25 @@ class AboutWindow(Gtk.Window):
 
 class Application(Gtk.Application):
     """Application boilerplate code"""
-
     def __init__(self):
         super(Application, self).__init__()
-
 
     def do_activate(self):
         self.win = MainWindow(self)
         self.win.show_all()
-
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
 
 # Load Ultimate-Dark-(Flat)-Grey GTK theme css
-style_provider = Gtk.CssProvider()
-style_provider.load_from_file(Gio.File.new_for_path(ASSETS + "gtk-3.0/gtk.css"))
+STYLE_PROVIDER = Gtk.CssProvider()
+STYLE_PROVIDER.load_from_file(Gio.File.new_for_path(ASSETS +
+                                                    "gtk-3.0/gtk.css"))
 Gtk.StyleContext.add_provider_for_screen(
-Gdk.Screen.get_default(),
-style_provider,
-Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
+    Gdk.Screen.get_default(), STYLE_PROVIDER,
+    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 # Run application
-app = Application()
-app.run(sys.argv)
-
+APP = Application()
+APP.run(sys.argv)

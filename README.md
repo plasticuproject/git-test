@@ -9,4 +9,4 @@
 - Change the working directory to where `build.sh` is located
 - Execute `./build.sh` to build
 - Execute `sudo cd build && ./install.sh` to install
-- Execute `hs-app` to run
+- Execute `hs_app` to run
