@@ -8,7 +8,7 @@ from playsound import playsound
 
 # Comment/Uncomment the appropriate path
 # ASSETS = "assets/"  # <-FOR DEVELOPMENT
-ASSETS = "/opt/hs-app/assets/"  # <-FOR PRODUCTION
+ASSETS = "/opt/hs_app/assets/"  # <-FOR PRODUCTION
 
 # Global image, sound, and text variables
 HS = ['h1.jpg', 'h2.jpg', 'h3.jpg', 'h4.jpg', 'h5.jpg']
